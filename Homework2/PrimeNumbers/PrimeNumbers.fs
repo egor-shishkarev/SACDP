@@ -14,5 +14,5 @@ module PrimeNumbers =
                     else cycle (i + bigint 1)
                 cycle (bigint 1)
         seq {
-             Seq.filter(fun number -> isPrime number) (Seq.initInfinite (fun number -> bigint number))
+             yield! Seq.filter(fun number -> isPrime number) (Seq.initInfinite (fun number -> bigint number))
         }
