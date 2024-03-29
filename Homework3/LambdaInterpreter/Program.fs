@@ -26,7 +26,7 @@ let rec alphaConversion (expr: Term) (oldVar: string) (newVar: string) =
         else 
             Abs (v, alphaConversion body oldVar newVar)
 
-let rec findNewVar (expr: Term) (varName: string) (subExpr: Term) =
+let findNewVar (expr: Term) (varName: string) (subExpr: Term) =
     let rec loop i =
         let newVar = sprintf "%s%d" varName i
         if not (containsFreeVar expr newVar) && not (containsFreeVar subExpr newVar) then
@@ -49,7 +49,7 @@ let rec substitute (expr: Term) (varName: string) (subExpr: Term) =
         else if not (containsFreeVar body v) then
             Abs (v, substitute body varName subExpr)
         else
-            let newVar = findNewVar body varName subExpr
+            let newVar = findNewVar expr varName subExpr
             let newBody = alphaConversion body v newVar
             Abs (newVar, substitute newBody varName subExpr)
 
@@ -72,7 +72,3 @@ let rec toString (expr: Term) =
     | Var v -> v
     | App (e1, e2) -> $"({toString e1} {toString e2})"
     | Abs (v, body) -> $"λ{v}.{toString body}"
-
-let expression = App ( Abs ("x", App (Var "x", Var "y")), Abs ("x", Var "x"))
-printfn "%A" <| toString expression
-printfn "%A" <| toString (normalize expression)
