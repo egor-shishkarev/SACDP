@@ -6,8 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="phonebook.txt" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 
   <ItemGroup>
     <ProjectReference Include="..\PhonebookLogic\PhonebookLogic.fsproj" />

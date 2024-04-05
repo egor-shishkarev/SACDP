@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="phonebook.txt" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

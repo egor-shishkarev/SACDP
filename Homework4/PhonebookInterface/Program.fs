@@ -13,7 +13,7 @@ let options = "
 5 - сохранить записи в файл
 6 - считать данные из файла
 "
-printfn("%s") <| options
+printf("%s") <| options
 
 let rec phonebookApp = 
 
@@ -21,7 +21,7 @@ let rec phonebookApp =
 
     let rec cycle phonebook = 
 
-        printf("%A") "Выберите опцию => "
+        printf("%s") "\nВыберите опцию => "
         let option = Console.ReadLine()
 
         match option with
@@ -49,8 +49,10 @@ let rec phonebookApp =
             save phonebook
             cycle phonebook
         | "6" ->
-            cycle getPhonebookFromFile
-        | _ -> printf("%s") "Такой опции не существует!"
+            cycle (getPhonebookFromFile phonebook)
+        | _ -> 
+            printf("%A") "Такой опции не существует!"
+            cycle phonebook
 
     cycle phonebook
 
