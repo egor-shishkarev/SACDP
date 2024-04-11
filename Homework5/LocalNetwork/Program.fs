@@ -1,4 +1,6 @@
-﻿open System
+﻿module LocalNetwork
+
+open System
 
 type OS = 
     | Windows
@@ -21,7 +23,6 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
     member this.Computers = computers
     member this.Connections = connections
     member this.InfectionProbability = infectionProbability
-    member this.IsFinal = false
 
     member this.Step() = 
         let mutable infectedOnThisStep = []
@@ -83,12 +84,3 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
 
         printfn("Заражено максимально возможное количество компьютеров")
 
-let computers = [Computer(OS.Windows).Infect(); Computer(OS.Linux);
-    Computer(OS.Windows); Computer(OS.Windows); Computer(OS.Linux);
-    Computer(OS.MacOS).Infect(); Computer(OS.Windows); Computer(OS.Windows); Computer(OS.Windows);]
-let connections = [[1; 3]; [2; 0]; [1]; [0]; [5; 6]; [4]; [4; 7]; [6]; []]
-
-let net = new LocalNetwork(computers, connections,
-    Map[OS.Linux, 1; OS.Windows, 1; OS.MacOS, 1])
-
-net.PerformInfect()

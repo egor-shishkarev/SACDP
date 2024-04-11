@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LocalNetwork", "LocalNetwork.fsproj", "{7F438EF2-EA36-4610-907C-291D19364BF2}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LocalNetworkTests", "..\LocalNetworkTests\LocalNetworkTests.fsproj", "{96B52E47-B43E-479D-8818-204EDC983C25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7F438EF2-EA36-4610-907C-291D19364BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F438EF2-EA36-4610-907C-291D19364BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F438EF2-EA36-4610-907C-291D19364BF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B52E47-B43E-479D-8818-204EDC983C25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B52E47-B43E-479D-8818-204EDC983C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B52E47-B43E-479D-8818-204EDC983C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B52E47-B43E-479D-8818-204EDC983C25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
