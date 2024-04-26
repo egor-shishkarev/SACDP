@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="FibonaccTests.fs" />
+    <Compile Include="FibonacciTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
