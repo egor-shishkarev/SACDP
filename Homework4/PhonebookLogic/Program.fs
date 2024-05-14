@@ -40,4 +40,3 @@ let getPhonebookFromFile (phonebook: (string * string) list) =
     
     let newPhonebook = List.map (fun (item: string) -> (item.Split(",")[0], item.Split(",")[1])) newData
     phonebook @ newPhonebook
-

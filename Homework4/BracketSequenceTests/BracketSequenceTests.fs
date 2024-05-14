@@ -9,7 +9,6 @@ let ``Simple true test`` () =
     let sequence = "(){[]()}"
     checkBracketsBalance sequence |> should equal true
 
-
 [<Test>]
 let ``Simple false test`` () =
     let sequence = "}{"

@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Compile Include="PointFreeTests.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

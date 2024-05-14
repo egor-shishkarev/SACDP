@@ -56,4 +56,4 @@ let rec phonebookApp =
 
     cycle phonebook
 
-phonebookApp
+phonebookApp |> ignore
