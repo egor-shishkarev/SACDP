@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Compile Include="LambdaInterpreterTests.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
