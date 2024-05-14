@@ -18,7 +18,6 @@ type Computer (osType: OS) =
             infected <- true
         this
 
-
 type LocalNetwork (computers: Computer list, connections: int list list, infectionProbability: Map<OS, float>) =
     member this.Computers = computers
     member this.Connections = connections
@@ -82,7 +81,6 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
             List.fold (fun acc i -> acc || (not computers.[i].Infected && 
             infectionProbability.[computers.[i].OS] > 0.0) && isInfectedComponent.[List.findIndex (fun i -> i = x) components] && containInfectedNeighbour(i)) false x)
 
-
         let isFinal = List.fold (fun acc x -> acc || x) false << isAnythingToInfect
 
         let mutable i = 1
@@ -94,5 +92,3 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
 
         printfn("Заражено максимально возможное количество компьютеров")
         i - 1
-
-

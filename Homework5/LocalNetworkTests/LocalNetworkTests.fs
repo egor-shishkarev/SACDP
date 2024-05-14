@@ -69,4 +69,3 @@ let ``Complicated test`` () =
     let countOfSteps = net.PerformInfect()
     (net.Computers.[9].Infected || net.Computers.[8].Infected || net.Computers.[6].Infected || net.Computers.[10].Infected) |> should equal false
     countOfSteps |> should equal 3
-
