@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Compile Include="ParseTreeTests.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

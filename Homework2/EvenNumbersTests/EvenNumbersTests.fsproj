@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Compile Include="EvenNumbersTests.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
