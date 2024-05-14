@@ -2,7 +2,7 @@
     let rec subFunction lst res = 
         match lst with 
         | [] -> res
-        | hd :: tl -> subFunction (tl) (hd :: res)
+        | hd :: tl -> subFunction tl (hd :: res)
     subFunction lst []
 
 let list = [10; 9; 8; 7; 6; 5; 4; 3; 2; 1]
