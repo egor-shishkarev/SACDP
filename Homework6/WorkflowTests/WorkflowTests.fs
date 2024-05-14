@@ -15,7 +15,6 @@ let ``Rounding workflow should work as expected`` () =
     }
     result |> should equal 0.048
 
-
 [<Test>]
 let ``Calculate workflow should work as expected`` () =
     let calculate = new CalculateBuilder()
