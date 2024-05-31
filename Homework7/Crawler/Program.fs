@@ -1,11 +1,11 @@
 ﻿module Crawler
 
-open System.Net
-open System.IO
 open System.Text.RegularExpressions
+open System.Net.Http
 
 let crawl url =
     let pattern = """<a href="http://(.*?)">"""
+    let client = new HttpClient()
 
     let extractPattern pattern html =
         let regex = Regex(pattern)
@@ -16,13 +16,9 @@ let crawl url =
 
     let fetchAsync (url: string) =
         async {
-            try 
-                let request = WebRequest.Create(url)
-                use! response = request.AsyncGetResponse()
-                use stream = response.GetResponseStream()
-                use reader = new StreamReader(stream)
-                let html = reader.ReadToEnd()
-                return Some (url, html)
+            try
+                let! response = client.GetStringAsync(url) |> Async.AwaitTask
+                return Some (url, response)
             with
             | ex ->
                 printfn "Failed to fetch %s: %s" url (ex.Message)
@@ -36,14 +32,12 @@ let crawl url =
             let links = extractPattern pattern html
             let fetchTasks = links |> List.map fetchAsync
             let! results = fetchTasks |> Async.Parallel
-            
-            results
-            |> Array.choose id
-            |> Array.iter (fun (url, content) -> printfn "%s - %d characters" url content.Length)
+            let collectedResults =
+                results
+                |> Array.choose id
+                |> Array.map (fun (url, content) -> (url, content.Length))
+                |> Array.toList
+            return Some(collectedResults)
         | None ->
-            printfn "Failed to fetch the url %s" url
+            return None
     }
-
-let startUrl = "http://example.com"
-
-crawl startUrl |> Async.RunSynchronously
