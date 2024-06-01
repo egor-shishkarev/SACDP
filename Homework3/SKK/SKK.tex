@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{geometry} \geometry{verbose,a4paper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+
+\title{\huge SKK}
+\author{\LARGEШишкарев Егор}
+\date{\large28 Марта 2024}
+
+\begin{document}
+\fontsize{14}{14}\selectfont
+\maketitle
+
+\section{Доказательство равенства}
+Докажем, что S K K = I в терминах лямба-выражений.
+Вспомним, что означает каждый комбинатор
+\begin{equation}
+    S = \lambda x~y~z.x~z~(y~z)
+\end{equation}
+\begin{equation}
+    K = \lambda x~y.x
+\end{equation}
+\begin{equation}
+    I = \lambda x.x
+\end{equation}
+Вычислим S K K и покажем, что результат равен I
+\begin{equation}
+    S~K~K = (\lambda x~y~z.x~z~(y~z))~K~K
+\end{equation}
+\begin{equation}
+    \rightarrow_\beta~\lambda y~z.K~z~(y~z)~K    
+\end{equation}
+\begin{equation}
+    \rightarrow_\beta~\lambda z.K~z~(K~z)  
+\end{equation}
+Вместо K подставляем лямбда-выражение
+\begin{equation}
+    = \lambda z.(\lambda x~y.x~z~(\lambda x~y.x~z))
+\end{equation}
+\begin{equation}
+    \rightarrow_\beta~\lambda z.(\lambda y.z~(\lambda x~y.x~z))
+\end{equation}
+\begin{equation}
+    \rightarrow_\beta~\lambda z.(z)
+\end{equation}
+\begin{equation}
+    \rightarrow_\alpha~\lambda x.x = I
+\end{equation}
+Что и требовалось доказать
+\end{document}

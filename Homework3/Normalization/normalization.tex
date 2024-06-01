@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{geometry} \geometry{verbose,a4paper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+
+\title{\hugeЛямбда-выражение}
+\author{\LARGEШишкарев Егор}
+\date{\large28 Марта 2024}
+
+\begin{document}
+\maketitle
+\section{Нормализация выражения}
+\fontsize{14}{14}\selectfont
+\begin{equation}
+    \Bigl(\bigl(\lambda a.(\lambda b.b~b)~(\lambda b.b~b)\bigr)~b\Bigr)~\Bigl(\bigl(\lambda c.(c~b)\bigr)~(\lambda a.a)\Bigr)  
+\end{equation}
+Преобразовываем первую скобку
+\begin{equation}
+    \rightarrow_\beta~
+    \bigl((\lambda b.b~b)~(\lambda b.b~b)\bigr)~\Bigl(\bigl(\lambda c.(c~b)\bigr)~(\lambda a.a)\Bigr) 
+\end{equation}
+Как мы знаем выражение в первых скобках при нормальной стратегии редукции не будет меняться. Перейдем ко второй скобке
+\begin{equation}
+    \rightarrow_\beta~
+    \bigl((\lambda b.b~b)~(\lambda b.b~b)\bigr)~\bigl(\lambda a.a~b\bigr) 
+\end{equation}
+\begin{equation}
+    \rightarrow_\beta~
+    \bigl((\lambda b.b~b)~(\lambda b.b~b)\bigr)~b
+\end{equation}
+На этом этапе попытка применить $\beta$-редукцию будет зацикливаться, мы будем получать то же самое выражение. Следовательно, это лямбда-выражение не имеет нормальной формы, ведь если бы она была, то с помощью $\beta$-редукций и нормальной стратегии мы бы пришли к ней.
+\end{document}
