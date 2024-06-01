@@ -23,14 +23,12 @@ type Computer (osType: OS) =
 // Interface for mock-objects usage
 type IRandom =
     abstract member NextDouble: unit -> float
-    abstract member MockValue: unit -> float
 
 // Default random function for cases without mock-objects
 type DefaultRandom() =
         interface IRandom with
             override this.NextDouble() =
                 Random().NextDouble()
-            override this.MockValue() = -1
 
 // Implementation of local network
 type LocalNetwork (computers: Computer list, connections: int list list, infectionProbability: Map<OS, float>, ?random: IRandom) =
@@ -100,8 +98,7 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
 
         let isAnythingToInfect = List.map (fun (x: int list) -> 
             List.fold (fun acc i -> acc || (not computers.[i].Infected && 
-            (infectionProbability.[computers.[i].OS] > 0.0 && random.MockValue() < 0.0 
-            || infectionProbability.[computers.[i].OS] > random.MockValue()) 
+            (infectionProbability.[computers.[i].OS] > 0.0)
             && isInfectedComponent.[List.findIndex (fun i -> i = x) components] && containInfectedNeighbour(i))) false x)
             
         let isFinal = List.fold (fun acc x -> acc || x) false << isAnythingToInfect

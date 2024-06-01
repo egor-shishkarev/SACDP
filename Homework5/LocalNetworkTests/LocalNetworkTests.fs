@@ -12,8 +12,6 @@ let ``Network with inevitable infection should work as depth first search test``
         Mock<IRandom>()
             .Setup(fun x -> <@x.NextDouble() @>)
             .Returns(mockProbability)
-            .Setup(fun x -> <@x.MockValue() @>)
-            .Returns(mockProbability)
             .Create()
     let computers = [Computer(OS.Windows).Infect(); Computer(OS.Linux);
         Computer(OS.Windows); Computer(OS.MacOS)]
@@ -32,8 +30,6 @@ let ``Network with impossible infection shouldn't change test`` () =
     let randomMock = 
         Mock<IRandom>()
             .Setup(fun x -> <@x.NextDouble() @>)
-            .Returns(mockProbability)
-            .Setup(fun x -> <@x.MockValue() @>)
             .Returns(mockProbability)
             .Create()
     let computers = [Computer(OS.Windows).Infect(); Computer(OS.Linux);
@@ -54,8 +50,6 @@ let ``Network with multiple components should stop infecting when all possible c
         Mock<IRandom>()
             .Setup(fun x -> <@x.NextDouble() @>)
             .Returns(mockProbability)
-            .Setup(fun x -> <@x.MockValue() @>)
-            .Returns(mockProbability)
             .Create()
     let computers = [Computer(OS.Windows); Computer(OS.Linux).Infect();
         Computer(OS.Windows); Computer(OS.MacOS); Computer(OS.MacOS)]
@@ -73,8 +67,6 @@ let ``Network in which one of the computers cannot be infected should stop the i
     let randomMock = 
         Mock<IRandom>()
             .Setup(fun x -> <@x.NextDouble() @>)
-            .Returns(mockProbability)
-            .Setup(fun x -> <@x.MockValue() @>)
             .Returns(mockProbability)
             .Create()
     let computers = [Computer(OS.Windows).Infect(); Computer(OS.Windows); Computer(OS.Windows); 
@@ -94,15 +86,13 @@ let ``Complicated test`` () =
         Mock<IRandom>()
             .Setup(fun x -> <@x.NextDouble() @>)
             .Returns(mockProbability)
-            .Setup(fun x -> <@x.MockValue() @>)
-            .Returns(mockProbability)
             .Create()
     let computers = [Computer(OS.Windows); Computer(OS.Windows); Computer(OS.Linux).Infect(); Computer(OS.Linux).Infect(); 
     Computer(OS.MacOS); Computer(OS.Linux); Computer(OS.MacOS); Computer(OS.Linux); Computer(OS.Windows); 
     Computer(OS.MacOS); Computer(OS.Windows); Computer(OS.Linux)]
 
-    let connections = [[1]; [5; 0]; [6]; [5; 7]; [5]; [1; 3; 4]; [2; 10]; [9; 11; 7]; [9]; [7; 8; 11]; [6]; [7; 9]]
-    let probability = Map[OS.Linux, 0.9; OS.Windows, 0.8; OS.MacOS, 0.1]
+    let connections = [[1]; [5; 0]; [6]; [5; 7]; [5]; [1; 3; 4]; [2; 10]; [9; 11]; [9]; [7; 8; 11]; [6]; [7; 9]]
+    let probability = Map[OS.Linux, 0.9; OS.Windows, 0.8; OS.MacOS, 0.0]
     let net = new LocalNetwork(computers, connections, probability, randomMock)
 
     let countOfSteps = net.PerformInfect()
