@@ -18,7 +18,19 @@ type Computer (osType: OS) =
             infected <- true
         this
 
-type LocalNetwork (computers: Computer list, connections: int list list, infectionProbability: Map<OS, float>) =
+type IRandom =
+    abstract member NextDouble: unit -> float
+    abstract member MockValue: unit -> float
+
+type DefaultRandom() =
+        interface IRandom with
+            override this.NextDouble() =
+                Random().NextDouble()
+            override this.MockValue() = -1
+
+type LocalNetwork (computers: Computer list, connections: int list list, infectionProbability: Map<OS, float>, ?random: IRandom) =
+    let random = defaultArg random (DefaultRandom() :> IRandom)
+
     member this.Computers = computers
     member this.Connections = connections
     member this.InfectionProbability = infectionProbability
@@ -33,7 +45,7 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
                     let connectedComputer = computers.[j]
                     if not connectedComputer.Infected then
                             let probability = infectionProbability.[connectedComputer.OS]
-                            if probability > 0.0 && probability >= Random().NextDouble() then
+                            if probability > 0.0 && probability >= random.NextDouble() then
                                 addInfected connectedComputer
         
         infectedOnThisStep <- List.map (fun (x: Computer) -> x.Infect()) infectedOnThisStep
@@ -71,16 +83,16 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
             List.fold (fun acc i -> acc || computers.[i].Infected) false x) <| components
 
         let containInfectedNeighbour(node: int) =
-            let mutable flag = false
-            for i in connections[node] do
-                if computers[i].Infected then
-                    flag <- true
-            flag
+            connections[node]
+            |> List.map (fun i -> computers[i].Infected)
+            |> List.contains true
 
         let isAnythingToInfect = List.map (fun (x: int list) -> 
             List.fold (fun acc i -> acc || (not computers.[i].Infected && 
-            infectionProbability.[computers.[i].OS] > 0.0) && isInfectedComponent.[List.findIndex (fun i -> i = x) components] && containInfectedNeighbour(i)) false x)
-
+            (infectionProbability.[computers.[i].OS] > 0.0 && random.MockValue() < 0.0 
+            || infectionProbability.[computers.[i].OS] > random.MockValue()) 
+            && isInfectedComponent.[List.findIndex (fun i -> i = x) components] && containInfectedNeighbour(i))) false x)
+            
         let isFinal = List.fold (fun acc x -> acc || x) false << isAnythingToInfect
 
         let mutable i = 1
