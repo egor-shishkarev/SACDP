@@ -1,16 +1,19 @@
 ﻿module Lambda
 
+// Term of lambda calculus
 type Term = 
     | Var of string
     | App of Term * Term
     | Abs of string * Term
 
+// Check if expression contains free var
 let rec containsFreeVar (expr: Term) (varName: string) =
     match expr with
     | Var v -> v = varName
     | Abs (v, body) -> v <> varName && containsFreeVar body varName
     | App (e1, e2) -> containsFreeVar e1 varName || containsFreeVar e2 varName
 
+// Replacing a variable
 let rec alphaConversion (expr: Term) (oldVar: string) (newVar: string) =
     match expr with
     | Var v -> 
@@ -26,6 +29,7 @@ let rec alphaConversion (expr: Term) (oldVar: string) (newVar: string) =
         else 
             Abs (v, alphaConversion body oldVar newVar)
 
+// Finds new variable name, that doesn't contains in expression
 let findNewVar (expr: Term) (varName: string) (subExpr: Term) =
     let rec loop i =
         let newVar = sprintf "%s%d" varName i
@@ -35,6 +39,7 @@ let findNewVar (expr: Term) (varName: string) (subExpr: Term) =
             loop (i + 1)
     loop 1
 
+// Substitution of term 
 let rec substitute (expr: Term) (varName: string) (subExpr: Term) =
     match expr with
     | Var v -> 
@@ -60,6 +65,7 @@ let rec betaConversion (expr: Term) =
     | Abs (v, body) -> Abs (v, betaConversion body)
     | _ -> expr
 
+// Main function of lambda interpreter
 let rec normalize (expr: Term) =
     let reducedTerm = betaConversion expr
     if expr <> reducedTerm then
