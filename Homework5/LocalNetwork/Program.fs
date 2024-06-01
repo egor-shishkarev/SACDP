@@ -96,7 +96,7 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
         let isFinal = List.fold (fun acc x -> acc || x) false << isAnythingToInfect
 
         let mutable i = 1
-        while (isFinal components) <> false do
+        while isFinal components do
             printfn("Шаг %d") i
             this.Step()
             this.PrintNetworkStatus()
