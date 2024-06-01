@@ -2,11 +2,13 @@
 
 open System
 
+// Operating systems in local network
 type OS = 
     | Windows
     | Linux
     | MacOS
 
+// A local network unit - computer with operating system
 type Computer (osType: OS) =
     let mutable infected = false
     
@@ -18,16 +20,19 @@ type Computer (osType: OS) =
             infected <- true
         this
 
+// Interface for mock-objects usage
 type IRandom =
     abstract member NextDouble: unit -> float
     abstract member MockValue: unit -> float
 
+// Default random function for cases without mock-objects
 type DefaultRandom() =
         interface IRandom with
             override this.NextDouble() =
                 Random().NextDouble()
             override this.MockValue() = -1
 
+// Implementation of local network
 type LocalNetwork (computers: Computer list, connections: int list list, infectionProbability: Map<OS, float>, ?random: IRandom) =
     let random = defaultArg random (DefaultRandom() :> IRandom)
 
@@ -35,6 +40,7 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
     member this.Connections = connections
     member this.InfectionProbability = infectionProbability
 
+    // One step of infection in network
     member this.Step() = 
         let mutable infectedOnThisStep = []
         let addInfected newInfected = infectedOnThisStep <- newInfected :: infectedOnThisStep
@@ -50,14 +56,17 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
         
         infectedOnThisStep <- List.map (fun (x: Computer) -> x.Infect()) infectedOnThisStep
 
+    // Print current condition of local network
     member this.PrintNetworkStatus() =
         for i = 0 to computers.Length - 1 do
             printfn "%d - %A" i computers.[i].Infected
 
+    // Returns connectivity components of local network
     member this.GetConnectedComponents() =
         let visited = Array.create computers.Length false
         let mutable components = []
 
+        // Depth-first search
         let rec dfs node (comp: int list) =
             visited.[node] <- true
             let mutable comp = node :: comp
@@ -73,6 +82,8 @@ type LocalNetwork (computers: Computer list, connections: int list list, infecti
 
         components
 
+    // Infects computers while it is possible
+    // Returns count of steps to infect all possible computers
     member this.PerformInfect() =
         printfn("Список смежности сети - \n%A") connections
         printfn("Начальное состояние сети - ")
