@@ -1,6 +1,7 @@
 ﻿module LocalNetwork
 
 open System
+open Foq
 
 // Operating systems in local network
 type OS = 

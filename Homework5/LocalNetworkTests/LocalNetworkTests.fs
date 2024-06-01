@@ -5,6 +5,12 @@ open FsUnit
 open LocalNetwork
 open Foq
 
+let boundaryCases =
+    [TestCaseData(1.0, 1, Some [0; 1; 2; 3; 4]);
+    TestCaseData(1.0, 0, None);
+    TestCaseData(0.0, 1, Some [0; 1; 2; 3; 4]);
+    TestCaseData(0.0, 0, None)]
+
 [<Test>]
 let ``Network with inevitable infection should work as depth first search test``() =
     let mockProbability = 0.5
@@ -98,3 +104,23 @@ let ``Complicated test`` () =
     let countOfSteps = net.PerformInfect()
     (net.Computers.[9].Infected || net.Computers.[8].Infected || net.Computers.[6].Infected || net.Computers.[10].Infected) |> should equal false
     countOfSteps |> should equal 3
+
+[<TestCaseSource("boundaryCases")>]
+let ``Boundary cases test`` (mockProbability: float, infectionProbability, expectedInfected: int list option) =
+    let randomMock =
+        Mock<IRandom>()
+            .Setup(fun x -> <@x.NextDouble() @>)
+            .Returns(mockProbability)
+            .Create()
+    let computers = [Computer(OS.Windows); Computer(OS.Linux);
+        Computer(OS.Windows); Computer(OS.MacOS); Computer(OS.MacOS).Infect()]
+    let connections = [[1]; [4; 2; 0]; [1; 3]; [4; 2]; [1; 3]]
+    let probability = Map[OS.Linux, infectionProbability; OS.Windows, infectionProbability; OS.MacOS, infectionProbability]
+    let net = new LocalNetwork(computers, connections, probability, randomMock)
+
+    net.PerformInfect() |> ignore
+    match expectedInfected with
+    | Some v -> List.fold (fun acc i -> acc && net.Computers.[i].Infected) true v |> should equal true
+    | None ->
+        let infectedCount = List.filter (fun (computer: Computer) -> computer.Infected) net.Computers |> List.length
+        infectedCount |> should equal 1
